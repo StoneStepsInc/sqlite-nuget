@@ -8,7 +8,7 @@
 # to restart build numbers from `1`. This is necessary because GitHub
 # maintains build numbers per workflow file name.
 #
-name: SQLite v3.49.1-1
+name: SQLite v3.49.1-2
 
 #
 # When `publish-package` is set to `yes`, the workflow will build

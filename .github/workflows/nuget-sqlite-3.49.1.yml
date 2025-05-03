@@ -8,7 +8,7 @@
 # to restart build numbers from `1`. This is necessary because GitHub
 # maintains build numbers per workflow file name.
 #
-name: SQLite v3.46.1-2
+name: SQLite v3.49.1-1
 
 #
 # When `publish-package` is set to `yes`, the workflow will build
@@ -45,13 +45,13 @@ on:
 # adding or removing files, changing any text in README files, etc.
 #
 env:
-  PKG_VER: '3.46.1'
+  PKG_VER: '3.49.1'
   PKG_REV: 2
-  SQLITE_FNAME: sqlite-amalgamation-3460100
-  SQLITE_URL_BASE: 'https://www.sqlite.org/2024'
+  SQLITE_FNAME: sqlite-amalgamation-3490100
+  SQLITE_URL_BASE: 'https://www.sqlite.org/2025'
   BUILD_NUMBER: ${{ github.run_number }}
 
-  SQLITE_SHA256: 77823cb110929c2bcb0f5d48e4833b5c59a8a6e40cdea3936b99e199dbbe5784
+  SQLITE_SHA256: 6cebd1d8403fc58c30e93939b246f3e6e58d0765a5cd50546f16c00fd805d2c3
 
   # for VS Community Edition, replace `Enterprise` with `Community` in the path
   VCVARSALL: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall'

@@ -7,17 +7,17 @@ if "%~1" == "" (
   goto :EOF
 )
 
-set PKG_VER=3.46.1
-set PKG_VER_ABBR=3460100
+set PKG_VER=3.49.1
+set PKG_VER_ABBR=3490100
 set PKG_REV=%~1
 
 set SQLITE_FNAME=sqlite-amalgamation-%PKG_VER_ABBR%.zip
 set SQLITE_DNAME=sqlite-amalgamation-%PKG_VER_ABBR%
-set SQLITE_URL_BASE=https://www.sqlite.org/2024
+set SQLITE_URL_BASE=https://www.sqlite.org/2025
 
 rem use `openssl dgst -sha3-256/sha256` to verify/convert
-rem original SQLite SHA3-256 hash: af6aae8d3eccc608857c63cf56efbadc70da48b5c719446b353ed88dded1e288
-set SQLITE_SHA256=77823cb110929c2bcb0f5d48e4833b5c59a8a6e40cdea3936b99e199dbbe5784
+rem original SQLite SHA3-256 hash: e7eb4cfb2d95626e782cfa748f534c74482f2c3c93f13ee828b9187ce05b2da7
+set SQLITE_SHA256=6cebd1d8403fc58c30e93939b246f3e6e58d0765a5cd50546f16c00fd805d2c3
 
 set SEVENZIP_EXE=c:\Program Files\7-Zip\7z.exe
 

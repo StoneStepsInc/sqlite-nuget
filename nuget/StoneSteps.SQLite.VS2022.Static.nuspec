@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>StoneSteps.SQLite.VS2022.Static</id>
-    <version>3.49.1</version>
+    <version>3.51.1</version>
     <authors>SQLite (contents)</authors>
     <owners>Stone Steps (package)</owners>
     <license type="file">LICENSE.md</license>
@@ -14,12 +14,12 @@ Package Notes:
 
   * Static libraries for x64 platform
   * Built in Visual C++ 2022, against Debug/Release MT/DLL MSVC CRT
-  * with SQLITE_ENABLE_MATH_FUNCTIONS
+  * with SQLITE_ENABLE_MATH_FUNCTIONS SQLITE_ENABLE_FTS5 SQLITE_ENABLE_COLUMN_METADATA SQLITE_ENABLE_CARRAY
   * Static libraries in this package are not injected into static library projects
 
-SQLite 3.49.1 Release Notes:
+SQLite 3.51.1 Release Notes:
 
-https://www.sqlite.org/releaselog/3_49_1.html
+https://www.sqlite.org/releaselog/3_51_1.html
     </releaseNotes>
     <copyright>SQLite</copyright>
     <tags>SQLite, database, native, library</tags>

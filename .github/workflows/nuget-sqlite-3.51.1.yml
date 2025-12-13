@@ -8,7 +8,7 @@
 # to restart build numbers from `1`. This is necessary because GitHub
 # maintains build numbers per workflow file name.
 #
-name: SQLite v3.49.1-2
+name: SQLite v3.51.1-1
 
 #
 # When `publish-package` is set to `yes`, the workflow will build
@@ -45,13 +45,13 @@ on:
 # adding or removing files, changing any text in README files, etc.
 #
 env:
-  PKG_VER: '3.49.1'
-  PKG_REV: 2
-  SQLITE_FNAME: sqlite-amalgamation-3490100
+  PKG_VER: '3.51.1'
+  PKG_REV: 1
+  SQLITE_FNAME: sqlite-amalgamation-3510100
   SQLITE_URL_BASE: 'https://www.sqlite.org/2025'
   BUILD_NUMBER: ${{ github.run_number }}
 
-  SQLITE_SHA256: 6cebd1d8403fc58c30e93939b246f3e6e58d0765a5cd50546f16c00fd805d2c3
+  SQLITE_SHA256: 84a85d6a1b920234349f01720912c12391a4f0cb5cb998087e641dee3ef8ef2e
 
   # for VS Community Edition, replace `Enterprise` with `Community` in the path
   VCVARSALL: 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall'
@@ -67,6 +67,8 @@ jobs:
   build-sqlite:
     name: Build SQLite
     runs-on: windows-2022
+    env:
+      SQLITE_FEATURES: '/DSQLITE_ENABLE_MATH_FUNCTIONS /DSQLITE_ENABLE_FTS5 /DSQLITE_ENABLE_COLUMN_METADATA /DSQLITE_ENABLE_CARRAY'
     
     steps:
     - name: Checkout
@@ -90,10 +92,10 @@ jobs:
         mkdir Release
         call "${{ env.VCVARSALL }}" x64
 
-        cl /c /MD /O2 /DNDEBUG /DSQLITE_ENABLE_MATH_FUNCTIONS /FoRelease\ /FdRelease\sqlite3.pdb sqlite3.c
+        cl /c /MD /O2 /DNDEBUG ${{ env.SQLITE_FEATURES }} /FoRelease\ /FdRelease\sqlite3.pdb sqlite3.c
         lib /MACHINE:X64 /OUT:Release\sqlite3.lib Release\sqlite3.obj
 
-        cl /MD /O2 /DNDEBUG /DSQLITE_ENABLE_MATH_FUNCTIONS /FeRelease\sqlite3.exe sqlite3.c shell.c
+        cl /MD /O2 /DNDEBUG ${{ env.SQLITE_FEATURES }} /FeRelease\sqlite3.exe shell.c /link Release\sqlite3.obj
 
     - name: Build x64/Debug
       working-directory: ${{ env.SQLITE_FNAME }}
@@ -101,7 +103,7 @@ jobs:
         mkdir Debug
         call "${{ env.VCVARSALL }}" x64
 
-        cl /c /MDd /O2 /Zi /DNDEBUG /DSQLITE_ENABLE_MATH_FUNCTIONS /FoDebug\ /FdDebug\sqlite3.pdb sqlite3.c
+        cl /c /MDd /O2 /Zi /DNDEBUG ${{ env.SQLITE_FEATURES }} /FoDebug\ /FdDebug\sqlite3.pdb sqlite3.c
         lib /MACHINE:X64 /OUT:Debug\sqlite3.lib Debug\sqlite3.obj
 
     - name: Collect build artifacts

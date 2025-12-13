@@ -7,8 +7,8 @@ if "%~1" == "" (
   goto :EOF
 )
 
-set PKG_VER=3.49.1
-set PKG_VER_ABBR=3490100
+set PKG_VER=3.51.1
+set PKG_VER_ABBR=3510100
 set PKG_REV=%~1
 
 set SQLITE_FNAME=sqlite-amalgamation-%PKG_VER_ABBR%.zip
@@ -16,8 +16,8 @@ set SQLITE_DNAME=sqlite-amalgamation-%PKG_VER_ABBR%
 set SQLITE_URL_BASE=https://www.sqlite.org/2025
 
 rem use `openssl dgst -sha3-256/sha256` to verify/convert
-rem original SQLite SHA3-256 hash: e7eb4cfb2d95626e782cfa748f534c74482f2c3c93f13ee828b9187ce05b2da7
-set SQLITE_SHA256=6cebd1d8403fc58c30e93939b246f3e6e58d0765a5cd50546f16c00fd805d2c3
+rem original SQLite SHA3-256 hash: 856b52ffe7383d779bb86a0ed1ddc19c41b0e5751fa14ce6312f27534e629b64
+set SQLITE_SHA256=84a85d6a1b920234349f01720912c12391a4f0cb5cb998087e641dee3ef8ef2e
 
 set SEVENZIP_EXE=c:\Program Files\7-Zip\7z.exe
 
@@ -56,16 +56,30 @@ rem import library is created, which cannot be used for linking.
 rem Static libraries are built instead in both configurations.
 rem
 
+rem
+rem Feature flags are described on this page:
+rem
+rem https://sqlite.org/compile.html#_options_to_enable_features_normally_turned_off
+rem
+rem SQLITE_ENABLE_ICU is not enabled because it would require a
+rem fairly complicated setup with ICU DLLs and data files, which
+rem is counterproductive to the nature of a simple static library
+rem provided by this package. It should be possible, however, to
+rem build the ICU extension separately and use it with this static
+rem library and the shell.
+rem
+set SQLITE_FEATURES=/DSQLITE_ENABLE_MATH_FUNCTIONS /DSQLITE_ENABLE_FTS5 /DSQLITE_ENABLE_COLUMN_METADATA /DSQLITE_ENABLE_CARRAY
+
 mkdir Release
 
-cl /c /MD /O2 /Zi /DNDEBUG /DSQLITE_ENABLE_MATH_FUNCTIONS /FoRelease\ /FdRelease\sqlite3.pdb sqlite3.c
+cl /c /MD /O2 /Zi %SQLITE_FEATURES% /DNDEBUG /FoRelease\ /FdRelease\sqlite3.pdb sqlite3.c
 lib /MACHINE:X64 /OUT:Release\sqlite3.lib Release\sqlite3.obj
 
-cl /MD /O2 /DNDEBUG /DSQLITE_ENABLE_MATH_FUNCTIONS /FeRelease\sqlite3.exe sqlite3.c shell.c
+cl /MD /O2 /DNDEBUG %SQLITE_FEATURES% /FeRelease\sqlite3.exe shell.c /link Release\sqlite3.obj
 
 mkdir Debug
 
-cl /c /MDd /Od /Zi /DSQLITE_ENABLE_MATH_FUNCTIONS /FoDebug\ /FdDebug\sqlite3.pdb sqlite3.c 
+cl /c /MDd /Od /Zi %SQLITE_FEATURES% /FoDebug\ /FdDebug\sqlite3.pdb sqlite3.c 
 lib /MACHINE:X64 /OUT:Debug\sqlite3.lib Debug\sqlite3.obj
 
 rem

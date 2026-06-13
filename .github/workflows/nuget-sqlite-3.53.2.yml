@@ -72,7 +72,7 @@ jobs:
     
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Download SQLite
       run: |
@@ -135,7 +135,7 @@ jobs:
 
     - name: Upload CI Nuget package
       if: ${{ github.event.inputs.publish-package != 'yes' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: SQLite CI Nuget package
         path: StoneSteps.SQLite.VS2022.Static.${{ env.PKG_VER }}.${{ env.PKG_REV }}-ci.${{ env.BUILD_NUMBER }}.nupkg
